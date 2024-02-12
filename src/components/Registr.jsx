@@ -15,20 +15,20 @@ export default function Login() {
    const [registrationMessage, setRegistrationMessage] = useState("");
 
    function ChangeInputLogin(e) {
-      setUserNameError(e.target.value.length <= 1);
+      setUserNameError(e.target.value.length <= 0);
    }
 
    function ChangeInputEmail(e) {
-      setEmailError(e.target.value.length <= 1);
+      setEmailError(e.target.value.length <= 0);
    }
 
    function ChangeInputPassword(e) {
-      setPasswordError(e.target.value.length <= 1);
+      setPasswordError(e.target.value.length <= 0);
    }
 
    async function handleSignupClick() {
-      setRegistrationMessage(""); 
-      if (!validate()) return; 
+      setRegistrationMessage("");
+      if (!validate()) return;
 
       try {
          const response = await axios.post(
@@ -40,6 +40,9 @@ export default function Login() {
             }
          );
          console.log("Signup success:", response.data);
+         usernameRef.current.value = "";
+         emailRef.current.value = "";
+         passwordRef.current.value = "";
          setRegistrationMessage(
             "Siz muvaffaqiyatli ro'yxatdan o'tdingiz!"
          );
@@ -140,7 +143,7 @@ export default function Login() {
                   Signup
                </Button>
                {registrationMessage && (
-                  <span className="text-green-500">
+                  <span className="text-red-500">
                      {registrationMessage}
                   </span>
                )}

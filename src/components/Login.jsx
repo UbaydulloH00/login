@@ -4,8 +4,10 @@ import FormInput from "./Form";
 import Logo from "../../image/logo.png";
 import Group from "../../image/male.png";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+   const navigate = useNavigate;
    const loginRef = useRef();
    const passwordRef = useRef();
    const [loginError, setLoginError] = useState(false);
@@ -13,11 +15,11 @@ export default function Login() {
    const [registrationError, setRegistrationError] = useState("");
 
    function ChangeInputLogin(e) {
-      setLoginError(e.target.value.length <= 1);
+      setLoginError(e.target.value.length <= 0);
    }
 
    function ChangeInputPassword(e) {
-      setPasswordError(e.target.value.length <= 1);
+      setPasswordError(e.target.value.length <= 0);
    }
 
    async function validate() {
@@ -37,11 +39,14 @@ export default function Login() {
                "User signed in successfully:",
                response.data
             );
-           
+            loginRef.current.value = "";
+            passwordRef.current.value = "";
+            navigate("/");
+
             setRegistrationError("");
          } catch (error) {
             console.error("Login failed:", error);
-            
+
             setRegistrationError(
                "Siz ro'yxatdan o'tmagan bo'lishingiz mumkin"
             );
@@ -106,7 +111,7 @@ export default function Login() {
                )}
                <Button
                   onClick={validate}
-                  classes="bg-bgButton text-white w-full mt-6 py-4 rounded-lg hover:bg-bgHover"
+                  classes="text-2xl bg-bgButton text-white w-full mt-6 py-4 rounded-lg hover:bg-bgHover"
                >
                   Kirish
                </Button>
