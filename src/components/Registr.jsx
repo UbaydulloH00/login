@@ -4,8 +4,10 @@ import Logo from "../../image/logo.png";
 import Group from "../../image/male.png";
 import Button from "./Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+   const navigate = useNavigate();
    const usernameRef = useRef();
    const emailRef = useRef();
    const passwordRef = useRef();
@@ -26,40 +28,6 @@ export default function Login() {
       setPasswordError(e.target.value.length <= 0);
    }
 
-   async function handleSignupClick() {
-      setRegistrationMessage("");
-      if (!validate()) return;
-
-      try {
-         const response = await axios.post(
-            "https://auth-rg69.onrender.com/api/auth/signup",
-            {
-               username: usernameRef.current.value.trim(),
-               email: emailRef.current.value.trim(),
-               password: passwordRef.current.value,
-            }
-         );
-         console.log("Signup success:", response.data);
-         usernameRef.current.value = "";
-         emailRef.current.value = "";
-         passwordRef.current.value = "";
-         setRegistrationMessage(
-            "Siz muvaffaqiyatli ro'yxatdan o'tdingiz!"
-         );
-      } catch (error) {
-         console.error("Signup error:", error);
-         if (error.response && error.response.status === 409) {
-            setRegistrationMessage(
-               "Bu foydalanuvchi allaqachon ro'yxatdan o'tgan!"
-            );
-         } else {
-            setRegistrationMessage(
-               "Ro'yxatdan o'tish vaqtida xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
-            );
-         }
-      }
-   }
-
    function validate() {
       const username = usernameRef.current.value.trim();
       const email = emailRef.current.value.trim();
@@ -76,6 +44,50 @@ export default function Login() {
       return isUsernameValid && isEmailValid && isPasswordValid;
    }
 
+   async function handleSignupClick() {
+      const userName = usernameRef.current.value.trim();
+      const passwordRegitr = passwordRef.current.value.trim();
+      const emailRegitr = emailRef.current.value.trim();
+
+      const dataRegistr = {
+         username: userName,
+         email: emailRegitr,
+         password: passwordRegitr,
+      };
+      setRegistrationMessage("");
+      if (!validate()) return;
+
+      try {
+         const response = await axios({
+            method: "post",
+            url: "https://auth-rg69.onrender.com/api/auth/signup",
+            dataRegistr,
+         });
+
+         console.log("Signup success:", response.data);
+         usernameRef.current.value = "";
+         emailRef.current.value = "";
+         passwordRef.current.value = "";
+         
+
+         setRegistrationMessage(
+            "Siz muvaffaqiyatli ro'yxatdan o'tdingiz!"
+         );
+         navigate("/");
+      } catch (error) {
+         console.error("Signup error:", error);
+         if (error.response && error.response.status === 409) {
+            setRegistrationMessage(
+               "Bu foydalanuvchi allaqachon ro'yxatdan o'tgan!"
+            );
+         } else {
+            setRegistrationMessage(
+               "Ro'yxatdan o'tish vaqtida xatolik yuz berdi. Iltimos, qaytadan urinib ko'ring."
+            );
+         }
+      }
+   }
+
    return (
       <div className="mt-[60px] flex justify-between">
          <div>
@@ -89,8 +101,8 @@ export default function Login() {
                   Xush kelibsiz!
                </h1>
                <p className="text-[20px] font-normal">
-                  Login parolingizni kiritib shahsiy kabinetingizga
-                  kiring
+                  Maydonlarni toldiring va bizning web saitimizda
+                  shahsiy kabintenigizni yarating
                </p>
             </section>
             <div>

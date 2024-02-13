@@ -25,32 +25,39 @@ export default function Login() {
    async function validate() {
       setLoginError(!loginRef.current.value);
       setPasswordError(!passwordRef.current.value);
+      const login = loginRef.current.value.trim();
+      const password = passwordRef.current.value.trim();
 
-      if (!loginError && !passwordError) {
-         try {
-            const response = await axios.post(
-               "https://auth-rg69.onrender.com/api/auth/signin",
-               {
-                  username: loginRef.current.value,
-                  password: passwordRef.current.value,
-               }
-            );
-            console.log(
-               "User signed in successfully:",
-               response.data
-            );
-            loginRef.current.value = "";
-            passwordRef.current.value = "";
-            navigate("/");
+      const data = {
+         username: login,
+         password: password,
+      };
 
-            setRegistrationError("");
-         } catch (error) {
-            console.error("Login failed:", error);
+      try {
+         const response = await axios.post(
+            "https://auth-rg69.onrender.com/api/auth/signin",
+            data
+         );
 
-            setRegistrationError(
-               "Siz ro'yxatdan o'tmagan bo'lishingiz mumkin"
-            );
+         console.log("User signed in successfully:", response.data);
+         if (response.data) {
+            alert("vhjg");
          }
+
+         
+         loginRef.current.value = "";
+         passwordRef.current.value = "";
+
+         setRegistrationError(
+            "Siz shaxsiy kabinetingizga muofaqtli kirdingiz"
+         );
+
+         navigate("/home");
+      } catch (error) {
+         console.error("Login failed:", error);
+         setRegistrationError(
+            "Siz ro'yxatdan o'tmagan bo'lishingiz mumkin"
+         );
       }
    }
 
