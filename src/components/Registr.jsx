@@ -27,14 +27,17 @@ export default function Login() {
    function ChangeInputPassword(e) {
       setPasswordError(e.target.value.length <= 0);
    }
-
+   function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+   }
    function validate() {
       const username = usernameRef.current.value.trim();
       const email = emailRef.current.value.trim();
       const password = passwordRef.current.value;
 
       const isUsernameValid = username.length > 1;
-      const isEmailValid = email.length > 1;
+      const isEmailValid = validateEmail(email);;
       const isPasswordValid = password.length > 1;
 
       setUserNameError(!isUsernameValid);
@@ -62,9 +65,9 @@ export default function Login() {
             "https://auth-rg69.onrender.com/api/auth/signup",
             data
          );
-        
+
          console.log("Signup success:", response.data);
-         
+
          usernameRef.current.value = "";
          emailRef.current.value = "";
          passwordRef.current.value = "";
