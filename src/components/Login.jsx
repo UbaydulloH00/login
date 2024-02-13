@@ -7,7 +7,7 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-   const navigate = useNavigate;
+   const navigate = useNavigate();
    const loginRef = useRef();
    const passwordRef = useRef();
    const [loginError, setLoginError] = useState(false);
@@ -40,19 +40,15 @@ export default function Login() {
          );
 
          console.log("User signed in successfully:", response.data);
-         if (response.data) {
-            alert("vhjg");
-         }
 
-         
          loginRef.current.value = "";
          passwordRef.current.value = "";
 
          setRegistrationError(
             "Siz shaxsiy kabinetingizga muofaqtli kirdingiz"
          );
-
-         navigate("/home");
+        
+         navigate("/");
       } catch (error) {
          console.error("Login failed:", error);
          setRegistrationError(
