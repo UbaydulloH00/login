@@ -46,33 +46,33 @@ export default function Login() {
 
    async function handleSignupClick() {
       const userName = usernameRef.current.value.trim();
-      const passwordRegitr = passwordRef.current.value.trim();
-      const emailRegitr = emailRef.current.value.trim();
+      const passwordRegistr = passwordRef.current.value.trim();
+      const emailRegistr = emailRef.current.value.trim();
 
-      const dataRegistr = {
+      const data = {
          username: userName,
-         email: emailRegitr,
-         password: passwordRegitr,
+         email: emailRegistr,
+         password: passwordRegistr,
       };
-      setRegistrationMessage("");
+
       if (!validate()) return;
 
       try {
-         const response = await axios({
-            method: "post",
-            url: "https://auth-rg69.onrender.com/api/auth/signup",
-            dataRegistr,
-         });
-
+         const response = await axios.post(
+            "https://auth-rg69.onrender.com/api/auth/signup",
+            data
+         );
+        
          console.log("Signup success:", response.data);
+         
          usernameRef.current.value = "";
          emailRef.current.value = "";
          passwordRef.current.value = "";
-         
 
          setRegistrationMessage(
             "Siz muvaffaqiyatli ro'yxatdan o'tdingiz!"
          );
+         alert("Siz muvaffaqiyatli ro'yxatdan o'tdingiz!");
          navigate("/");
       } catch (error) {
          console.error("Signup error:", error);

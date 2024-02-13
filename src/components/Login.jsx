@@ -22,7 +22,7 @@ export default function Login() {
       setPasswordError(e.target.value.length <= 0);
    }
 
-   async function validate() {
+   async function handleSigninClick() {
       setLoginError(!loginRef.current.value);
       setPasswordError(!passwordRef.current.value);
       const login = loginRef.current.value.trim();
@@ -47,7 +47,7 @@ export default function Login() {
          setRegistrationError(
             "Siz shaxsiy kabinetingizga muofaqtli kirdingiz"
          );
-        
+         alert("Siz shaxsiy kabinetingizga muofaqtli kirdingiz");
          navigate("/");
       } catch (error) {
          console.error("Login failed:", error);
@@ -113,7 +113,7 @@ export default function Login() {
                   </span>
                )}
                <Button
-                  onClick={validate}
+                  onClick={handleSigninClick}
                   classes="text-2xl bg-bgButton text-white w-full mt-6 py-4 rounded-lg hover:bg-bgHover"
                >
                   Kirish
